@@ -3,11 +3,11 @@
 button{font:16px/1.4 system-ui;padding:10px 14px;border-radius:8px;border:1px solid #888;background:#f0f0f0;margin-left:8px}</style>
 <h3>输入 4 位码打开文章</h3><input id="c" maxlength="4" placeholder="abcd"><button id="go">打开文章</button><div id="o"></div><script>
 var BASE='https://filed-ebony-accompanying-instruction.trycloudflare.com';
-function openCode(code){var o=document.getElementById('o');o.textContent='查询中...';
+function openCode(code,auto){var o=document.getElementById('o');o.textContent='查询中...';
  fetch(BASE+'/get/'+encodeURIComponent(code)).then(function(r){return r.json();}).then(function(j){
-  if(j.url){var w=window.open(j.url,'_blank');if(!w){location.href=j.url;}}
+  if(j.url){if(auto){location.href=j.url;}else{var w=window.open(j.url,'_blank');if(!w){location.href=j.url;}}}
   else{o.textContent='无效或过期的码';}
  }).catch(function(e){o.textContent='查询失败：'+e;});}
 document.getElementById('go').addEventListener('click',function(){var c=document.getElementById('c').value.trim().toLowerCase();if(c)openCode(c);});
-var q=new URLSearchParams(location.search).get('c');if(q){document.getElementById('c').value=q;openCode(q.toLowerCase());}
+var q=new URLSearchParams(location.search).get('c');if(q){document.getElementById('c').value=q;openCode(q.toLowerCase(),true);}
 </script>
